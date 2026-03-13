@@ -5,12 +5,42 @@
 ## Integrantes
 
 [Juan Camilo Yepes](https://github.com/JuanCY99)
-[Cristian Romero]()
+
+[Cristian Romero](https://github.com/crisr2215)
+
 [Kevin Mejia]()
 
 
 ## Documentación
 
+1. Alertas Visuales y colores de la grafica
+
+En la función actualizar_datos(), se  agregó un if temp >= self.umbral_alerta:. Si la Raspberry se calienta de más, empezará a imprimir "¡ALERTA!" en la terminal de texto.
+
+En el método graficar(). Si todo está bien, dibuja la línea de color verde (color_normal). Si detecta sobrecalentamiento, la línea de la gráfica cambia drásticamente a rojo (color_alerta) para llamar la atención del usuario.
+
+
+2. Tiempo de muestreo y ventana de tiempo 
+
+Se cambió el nombre de duracion_max a duracion_ventana para que sea más claro. Esto define cuántos segundos "recuerda" visualmente la gráfica.
+
+El intervalo ahora es un parámetro principal. Al instanciar la clase abajo (en el if __name__ == "__main__":), lo puedes cambiar fácilmente (ej. 0.5 para ser más rápido, o 5.0 para no cargar el procesador).
+
+3. Estadísticas en Vivo
+
+En el constructor (__init__), se crearon las variables self.temp_max y self.temp_min.
+
+Cada vez que se lee una nueva temperatura, el sistema revisa si rompió el récord de calor o de frío y las actualiza.
+
+En el método graficar(), calculamos el promedio matemáticamente sumando la lista y dividiéndola entre el total. Luego se inserta toda esa información en el título de la gráfica (self.ax.set_title).
+
+4. Cierre Automático
+
+Se agregó el parámetro duracion_total. El ciclo while ahora verifica si el tiempo_actual ya alcanzó o superó esa duración total. Si es así, ejecuta un break para romper el ciclo de forma segura.
+
+Se cambió también el final del bloque finally. En lugar de plt.close(), puse plt.show(). Esto hace que, cuando se acaba el tiempo, el programa deje de actualizar los datos, pero la ventana de la gráfica se quede abierta y congelada para que puedas analizar cómo terminó todo. Solo se cerrará cuando le des a la 'X' de la ventana.
+
+¿Qué te parece? Puedes jugar con los valores dentro del bloque if __name__ == "__main__": en la parte inferior para probar tiempos más largos o umbrales de alerta más bajos (por ejemplo, si quieres forzar la alerta para ver cómo la línea se pone roja, pon el umbral en 40.0).
 
 ## Preguntas
 
